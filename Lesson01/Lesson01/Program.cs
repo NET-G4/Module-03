@@ -11,10 +11,9 @@
         // Complete the following method
         public static int Add(int a, int b)
         {
-            int result;
-            result = a + b;
-            return result;
-            // i am finished😂😂😂😂😂
+            
+            return a+b;
+            
         }
     }
 }
