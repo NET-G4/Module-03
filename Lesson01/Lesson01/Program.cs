@@ -11,7 +11,10 @@
         // Complete the following method
         public static int Add(int a, int b)
         {
-            return 0;
+            if (a != 0)
+            {
+                return a + b;
+            }
         }
     }
 }
