@@ -11,7 +11,10 @@
         // Complete the following method
         public static int Add(int a, int b)
         {
-            return 0;
+            int result;
+            result = a + b;
+            return result;
+            // i am finished😂😂😂😂😂
         }
     }
 }
