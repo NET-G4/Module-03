@@ -9,9 +9,7 @@
 
         // Homework
         // Complete the following method
-        public static int Add(int a, int b)
-        {
-            return 0;
-        }
+        public static int Add(int a, int b) => a + b; 
+        
     }
 }
