@@ -4,14 +4,21 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            
+
+
+
         }
 
         // Homework
         // Complete the following method
         public static int Add(int a, int b)
         {
-            return a - b;
+            if (a > 0 || b > 0)
+            {
+                return a + b;
+            }
+            return 0;
         }
     }
 }
