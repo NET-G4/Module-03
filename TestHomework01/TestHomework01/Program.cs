@@ -5,7 +5,7 @@
         public static Dictionary<Car, List<Jarima>> jarimalar = new Dictionary<Car, List<Jarima>>();
         static void Main(string[] args)
         {
-            Jarima jarma1 = new Jarima();
+            Jarima jarma1 = new Jarima(10_000,DateTime.Now,"Toshkent");
         }    
         static void  AddJarima(Car car, Jarima jarima)
         {
@@ -13,7 +13,7 @@
         }
         static void PayJarima(Car car , int id)
         {
-
+                   
         }
     }
 

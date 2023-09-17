@@ -12,16 +12,15 @@ namespace TestHomework01
         public int ID { get;private set; }
         public decimal value { get; set; }
         public DateTime Date { get; set; }
-        public string Palace { get; set; }
-        public bool IsPaid { get; set; }
+        public string Place { get; set; }
+        public bool IsPaid { get; set; } = false;
 
-        public Jarima(decimal value, DateTime date, string palace, bool isPaid)
+        public Jarima(decimal value, DateTime date, string place)
         {
             ID=++id;
             this.value=value;
             Date=date;
-            Palace=palace;
-            IsPaid=isPaid;
+            Place=place;
         }
     }
 }
