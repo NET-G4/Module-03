@@ -13,7 +13,7 @@
         }
         static void PayJarima(Car car , int id)
         {
-                   
+            
         }
     }
 

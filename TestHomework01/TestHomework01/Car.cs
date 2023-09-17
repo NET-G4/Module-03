@@ -9,12 +9,12 @@ namespace TestHomework01
 {
     internal class Car
     {
-        public string AvtoNumber { get; set; }
+        public string CarNumber { get; set; }
         public string Model { get; set; }
         
-        public Car(string avtoNumber, string model)
+        public Car(string carNumber, string model)
         {
-            AvtoNumber=avtoNumber;
+            CarNumber=carNumber;
             Model=model;
         }
         
