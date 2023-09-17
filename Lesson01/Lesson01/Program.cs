@@ -11,6 +11,24 @@
         static void Main(string[] args)
         {
 
+            Car car = new Car(0,   "A123B0",    "25 A 213 CD");
+            /*Shtaraf shtaraf1 = new Shtaraf(1,  "A8236B9",   "01 B 456 AA");
+            Shtaraf shtraf2 = new Shtaraf(2,   "B1234B6",   "20 B 218 BB");
+            Shtaraf shtraf3 = new Shtaraf(3,   "A453B0",    "30 C 598 CD");
+            Shtaraf shtraf4 = new Shtaraf(4,   "K8236B9",   "40 E 456 AA");
+            Shtaraf shtraf5 = new Shtaraf(5,   "G434B6",    "50 G 218 BB");
+            Shtaraf shtraf6  = new Shtaraf(6,  "A123B0",    "60 K 213 CD");
+            Shtaraf shtraf7 = new Shtaraf(7,   "B6456B9",   "70 L 569 AA");
+            Shtaraf shtraf8 = new Shtaraf(8,   "B1234B6",   "80 S 658 BB");
+            Shtaraf shtraf9 = new Shtaraf(9,   "A123B0",    "85 T 123 CD");
+            Shtaraf shtraf10 = new Shtaraf(10, "A8236B9",   "90 O 876 AA");
+            Shtaraf shtraf11 = new Shtaraf(11, "B1234B6",   "10 Q 188 BB");*/
+
+            //car.DisplayJarima();
+            car.JarimaTolash(0, "25 A 213 CD");
+            Console.WriteLine();
+            car.JarimalarTarixi();
+            
             #region List
 
             //List<int> numbers = new List<int>();
@@ -97,7 +115,7 @@
 
             #region Hashset
 
-            HashSet<int> set = new HashSet<int>();
+            /*HashSet<int> set = new HashSet<int>();
             set.Add(1);
             set.Add(2);
             set.Add(3);
@@ -109,7 +127,7 @@
             Console.WriteLine(num);
             Console.WriteLine(set.Contains(1));
 
-            set.Remove(2);
+            set.Remove(2);*/
 
             #endregion
         }
