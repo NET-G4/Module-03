@@ -12,15 +12,25 @@ namespace TestHomework01
         public int ID { get;private set; }
         public decimal value { get; set; }
         public DateTime Date { get; set; }
-        public string Place { get; set; }
+        public string Reason { get; set; }
         public bool IsPaid { get; set; } = false;
 
-        public Jarima(decimal value, DateTime date, string place)
+        public Jarima(decimal value, DateTime date, string reason)
         {
-            ID=++id;
-            this.value=value;
-            Date=date;
-            Place=place;
+            ID = ++id;
+            this.value = value;
+            Date = date;
+            Reason = reason;
+        }
+        public void DisplayInfo()
+        {
+            Console.WriteLine("****************");
+            Console.WriteLine($"Jarima ID : {ID}");
+            Console.WriteLine($"Qiymati : {value}");
+            Console.WriteLine($"Vaqti {Date}");
+            Console.WriteLine($"Sababi : {Reason}");
+            Console.WriteLine($"To'langan {IsPaid}");
+            Console.WriteLine("****************");
         }
     }
 }
