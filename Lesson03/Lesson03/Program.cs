@@ -18,264 +18,79 @@
     // yig'ib umumiy o'rta qiymatini (sum / n) qaytaradi.
     internal class Program
     {
-        public delegate void PrintMessage();
-        public delegate int Transform(int x);
-        public delegate void DisplayNumber(int x);
-
-        public delegate bool ValidateNumber(int number);
-        public delegate void Greet(bool isSignedIn);
+        public delegate bool CheckEvenNumber(int x);
+        public delegate bool CHeckNumberOdd(int x);
+        public delegate int AverageNumber(int x);
+        public delegate int AvregeNum(int x);
 
         static void Main(string[] args)
         {
-            #region Sample 1
-
-            // PrintMessage printMessage = new PrintMessage(Hello);
-            // PrintMessage printMessage = Hello;
-
-            // printMessage.Invoke();
-            //printMessage();
-            //Console.WriteLine();
-
-            //printMessage += World;
-            //printMessage += Hello;
-
-            //printMessage();
-
-            //Console.WriteLine();
-
-            //printMessage -= Hello;
-            //printMessage -= Hello;
-            //printMessage -= Hello;
-            //printMessage -= World;
-
-            //printMessage?.Invoke();
-            //Console.WriteLine();
-
-            //PrintMessage message1 = printMessage;
-            //message1();
-            //PrintMessage printMessage2 = message1 + printMessage;
-
-            //printMessage2();
-
-            #endregion
-
-            int[] numbers =
-                { -5, -7, -10, -50, -4, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
-            //Transform transformer = Square;
-            //transformer += Cube;
-
-            //int num = transformer(3);
-
-            //TransformNumbers(numbers, Square, DisplayNumberWithColor);
-            //TransformNumbers(numbers, Cube, WriteNumberToFile);
-
-            //DisplayNumbers(numbers, IsEven);
-            //DisplayNumbers(numbers, IsPositive);
-
-            string language = Console.ReadLine();
-
-            if (language == "uz")
+            int[] number = { 2, 2, 4, 8, 10 };
+            int[] number1 = { 1, 3, 5, 9, 7 };
+            CheckNumber(number, All);
+            CheckOdd(number1, All);
+            AverageValue(number, Sum);
+            Average(number1, Aver);
+        }
+        static void CheckNumber(int[] number, CheckEvenNumber checkEvenNumber)
+        {
+            foreach (int num in number)
             {
-                StartApplication(WelcomeUserUzb);
+                if (!checkEvenNumber(num))
+                {
+                    Console.WriteLine("False");
+                    Environment.Exit(0);
+                }
             }
-            else
+            Console.WriteLine("True");
+        }
+        static bool All(int x)
+        {
+            if (x % 2 == 0)
             {
-                StartApplication(WelcomeUserEn);
+                return true;
             }
+            return false;
         }
-
-        static void DisplayHello(string name, int age)
+        static void CheckOdd(int[] number1, CHeckNumberOdd cHeckNumberOdd)
         {
-            if (age > 17)
+            foreach (int num in number1)
             {
-                Console.WriteLine($"Hello: {name}. You can take driver license");
+                if (cHeckNumberOdd(num))
+                {
+                    Console.WriteLine("True");
+                    Environment.Exit(0);
+                }
             }
-            else
+            Console.WriteLine("False");
+        }
+        static void AverageValue(int[] number, AverageNumber averageNumber)
+        {
+            int sumResult = 0;
+            foreach (int num in number)
             {
-                Console.WriteLine($"Hello: {name}. You cannot take driver license");
+                int result = averageNumber(num);
+                sumResult += result;
             }
+            int average = sumResult / number.Length;
+            Console.WriteLine($"O'rta qiymat: {average}");
         }
-
-        static void StartApplication(Greet greet)
+        static int Sum(int x)
         {
-            bool isSignedIn = true;
-
-            greet(isSignedIn);
+            return x;
         }
-
-        static void WelcomeUserUzb(bool isSignedIn)
+        static void Average(int[] number1, AvregeNum avregeNum)
         {
-            if (isSignedIn)
+            int sum = 0;
+            foreach (int num1 in number1)
             {
-                Console.WriteLine("Qayta ko'rishdan xursandmiz!");
+                sum += avregeNum(num1);
             }
-            else
-            {
-                Console.WriteLine("Xush kelibsiz!");
-            }
+            Console.WriteLine(sum);
         }
-
-        static void WelcomeUserEn(bool isSignedIn)
+        static int Aver(int x)
         {
-            if (isSignedIn)
-            {
-                Console.WriteLine("Welcome back!");
-            }
-            else
-            {
-                Console.WriteLine("Welcome!");
-            }
+            return x;
         }
-
-        static void DisplayNumbers(int[] numbers, Validator validator)
-        {
-            foreach (var number in numbers)
-            {
-                DisplayNumberWithColor(number, validator);
-            }
-
-            Console.WriteLine();
-        }
-
-        static void DisplayNumbers(int[] numbers, ValidateNumber validator)
-        {
-            foreach (var number in numbers)
-            {
-                DisplayNumberWithColor(number, validator);
-            }
-
-            Console.WriteLine();
-        }
-
-        static void TransformNumbers(int[] numbers, Transform transfomer, DisplayNumber displayer)
-        {
-            foreach (var number in numbers)
-            {
-                displayer(transfomer(number));
-            }
-
-            Console.WriteLine();
-        }
-
-        static bool IsEven(int x)
-        {
-            return x % 2 == 0;
-        }
-
-        static bool IsPositive(int x)
-        {
-            return x >= 0;
-        }
-
-        static void DisplayNumberWithColor(int x, ValidateNumber validator)
-        {
-            if (validator(x))
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write(x + " ");
-                Console.ResetColor();
-                return;
-            }
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(x + " ");
-            Console.ResetColor();
-        }
-
-        static void DisplayNumberWithColor(int x, Validator validator)
-        {
-            if (validator.IsEven(x))
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write(x + " ");
-                Console.ResetColor();
-                return;
-            }
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write(x + " ");
-            Console.ResetColor();
-        }
-
-        static void DisplayNumberWithPositive(int x)
-        {
-            if (x < 0)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write(x + " ");
-                Console.ResetColor();
-                return;
-            }
-
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(x + " ");
-            Console.ResetColor();
-        }
-
-        static void WriteNumberToFile(int x)
-        {
-            // Write to file
-            Console.WriteLine($"Writing to file number: {x}");
-        }
-
-        static void TransformNumbersToSquare(int[] numbers)
-        {
-            foreach (var number in numbers)
-            {
-                Console.Write(Square(number) + " ");
-            }
-
-            Console.WriteLine();
-        }
-
-        static void TransformNumbersToCube(int[] numbers)
-        {
-            foreach (var number in numbers)
-            {
-                Console.Write(Cube(number) + " ");
-            }
-
-            Console.WriteLine();
-        }
-
-        static int Square(int x)
-        {
-            return x * x;
-        }
-
-        static int Cube(int x)
-        {
-            return x * x * x;
-        }
-
-        static void Hello()
-        {
-            Console.WriteLine("Hello");
-        }
-
-        static void World()
-        {
-            Console.WriteLine("World");
-        }
-    }
-
-    class Validator
-    {
-        public bool IsEven(int x)
-        {
-            return x % 2 == 0;
-        }
-
-        public bool IsPositive(int x)
-        {
-            return x >= 0;
-        }
-    }
-
-    class Person
-    {
-        public string Name { get; set; }
-        public int age { get; set; }
     }
 }
