@@ -2,191 +2,132 @@
 {
     internal class Program
     {
-        public delegate void PrintMessage(string message);
+        // 1.
+        // COUNT(int[] array, Predicate<int> predicate) -> int
+        // massiv qabul qilib, shartni qanoatlantiradigan
+        // elementlar sonini qaytaradi
+        // 2.
+        // MAX(int[] array, Predicate<int> predicate) -> int
+        // massiv qabul qilib, shartni qanoatlantiradigan
+        // elementlardan maksimal qiymanti qaytaradi
+        // 3.
+        // MIN(int[] array, Predicate<int> predicate) -> int
+        // massiv qabul qilib, shartni qanoatlantiradigan
+        // elementlardan minimal qiymanti qaytaradi
+        // 4.
+        // Where (int[] array, Predicate<int> predicate) -> int[]
+        // massiv qabul qilib, shartni qanoatlantiradigan elementlarni
+        // massivini qaytaradi.
+        // 5.
+        // Convert(decimal[] array, Func<decimal, decimal> converter) -> decimal[]
+        // massiv qabul qilib, sonlarni o'zgartirib elementlarni natijasini qayataridi
 
-        // Func<TResult>, Func<T1, TResult>, .... Func<T16, TResult>
-        // Action<T1>, Action<T1, T2>, ... Action<T16>
-        // Predicate<T>, Predicate<T1, T2>, ... Predicate<T16>
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            #region delegates review
+            int[] evenNumbers = { 2, 4, 6, 8, 10 };
+            int[] oddNumbers = { 1, 3, 5, 7, 9 };
+            int[] evenNumbersWithOneOdd = { 2, 4, 6, 8, 9 };
+            int[] oddNumbersWithOneEven = { 1, 3, 5, 7, 8 };
 
-            // PrintMessage messagePrinter = new Delegate(PrintMessage);
-            //PrintMessage messagePrinter = PrintHello;
-            //messagePrinter += PrintGoodbye;
+            int[] positiveNumbers = { 1, 2, 3, 4, 5 };
+            int[] negativeNumbers = { -1, -2, -3, -4, -5 };
+            int[] positiveNumbersWithOneNegative = { 1, 2, 3, 4, -5 };
+            int[] negativeNumbersWithOnePositive = { -1, -2, -3, -4, 5 };
 
-            //messagePrinter("John");
+            #region All
 
-            //messagePrinter.Invoke("Jane");
+            Console.WriteLine("---- All ----");
 
-            //messagePrinter = null;
+            // check if all numbers are positive
+            bool isAllEven = Homework.All(evenNumbers, IsEven); // true
+            bool isAllOdd = Homework.All(oddNumbers, IsOdd);
+            bool res1 = Homework.All(evenNumbersWithOneOdd, IsEven);
+            bool res2 = Homework.All(oddNumbersWithOneEven, IsOdd);
 
-            //if (messagePrinter != null)
-            //{
-            //    messagePrinter("Robert");
-            //}
-
-            //messagePrinter?.Invoke("Robert");
-
-            // --- //
-
-            //Person person = new Person()
-            //{
-            //    Id = 1,
-            //    Name = "John"
-            //};
-
-            //RegisterUser(person, GreetUser);
-            //RegisterUser(person, GreetUserRu);
-            //RegisterUser(person, GreetUserUz);
+            Console.WriteLine(isAllEven);
+            Console.WriteLine(isAllOdd);
+            Console.WriteLine(res1);
+            Console.WriteLine(res2);
 
             #endregion
 
-            #region Generics
+            #region Any
 
-            // PrintRed<string>("Hello");
-            //PrintRed("Hello");
-            //PrintRed(123);
-            //PrintRed(true);
+            Console.WriteLine("---- Any ----");
 
-            //Student student = new Student()
-            //{
-            //    Id = 2,
-            //    Name = "Jane",
-            //    StudentNumber = 512
-            //};
+            bool any1 = Homework.Any(positiveNumbers, IsNegative); // true
+            bool any2 = Homework.Any(negativeNumbers, IsPositive);
+            bool any3 = Homework.Any(positiveNumbersWithOneNegative, IsNegative);
+            bool any4 = Homework.Any(negativeNumbersWithOnePositive, IsPositive);
 
-            // student.DisplayInfo();
-
-            // PrintRed(student);
-
-            // var newStudent = PrintRed<Student, int>(student, 2);
-
-            //Person john = new Student();
-            //john.Id = 4;
-            //john.Name = "John";
-            //Student student = (Student)john;
-            //student.StudentNumber = 5;
-
-            //Console.WriteLine(student.Name);
-            //student.DisplayInfo();
-
-            //Console.WriteLine();
-            //student.Name = "Student";
-
-            //Console.WriteLine(student.Name);
-            //Console.WriteLine(john.Name);
+            Console.WriteLine(any1);
+            Console.WriteLine(any2);
+            Console.WriteLine(any3);
+            Console.WriteLine(any4);
 
             #endregion
 
-            //ExecuteOperation(5, 7, Add, PrintGreen<int>);
-            //ExecuteOperation(5, 7, Multiply, PrintRed);
-            //ExecuteOperation(5, 7, Subtract, PrintBlue);
+            #region Sum
+
+            Console.WriteLine("---- Sum ----");
+
+            int sum1 = Homework.Sum(positiveNumbers, Square); // 55
+            int sum2 = Homework.Sum(negativeNumbers, Square);
+            int sum3 = Homework.SumFunc(positiveNumbersWithOneNegative, Cube);
+            int sum4 = Homework.SumFunc(negativeNumbersWithOnePositive, Cube);
+
+            Console.WriteLine(sum1);
+            Console.WriteLine(sum2);
+            Console.WriteLine(sum3);
+            Console.WriteLine(sum4);
+
+            #endregion
+
+            #region Average
+
+            Console.WriteLine("---- Average ---- ");
+
+            int average1 = Homework.Average(positiveNumbers, Square);
+            int average2 = Homework.Average(negativeNumbers, Square);
+            int average3 = Homework.AverageFunc(positiveNumbersWithOneNegative, Cube);
+            int average4 = Homework.AverageFunc(negativeNumbersWithOnePositive, Cube);
+
+            Console.WriteLine(average1);
+            Console.WriteLine(average2);
+            Console.WriteLine(average3);
+            Console.WriteLine(average4);
+
+            #endregion
         }
 
-        #region Delegate methods
-
-        static void RegisterUser(Person person, PrintMessage printMessage)
+        static bool IsEven(int number)
         {
-            // database -> registration
-
-            bool isSuccess = true; //registration
-
-            if (isSuccess)
-            {
-                printMessage(person.Name);
-            }
+            return number % 2 == 0;
         }
 
-        static void GreetUser(string name)
+        static bool IsOdd(int number)
         {
-            Console.WriteLine($"Hello, {name}");
+            return number % 2 != 0;
         }
 
-        static void GreetUserUz(string name)
+        static bool IsPositive(int number)
         {
-            Console.WriteLine($"Salom, {name}");
+            return number >= 0;
         }
 
-        static void GreetUserRu(string name)
+        static bool IsNegative(int number)
         {
-            Console.WriteLine($"Привет, {name}");
+            return number < 0;
         }
 
-        static void PrintHello(string name)
+        static int Square(int number)
         {
-            Console.WriteLine($"Hello: {name}");
+            return number * number;
         }
 
-        static void PrintGoodbye(string name)
+        static int Cube(int number)
         {
-            Console.WriteLine($"Goodbye: {name}");
+            return (int)Math.Pow(number, 3);
         }
-
-        static int CalculateLength(string name)
-        {
-            return name.Length;
-        }
-
-        static void PrintError(string errorMessage, int errorCode)
-        {
-            Console.WriteLine($"Error: {errorMessage} ({errorCode})");
-        }
-
-        static void ExecuteOperation(int a, int b, Func<int, int, int> func, Action<int> display)
-        {
-            int result = func(a, b);
-
-            display(result);
-        }
-
-        static int Add(int a, int b)
-        {
-            return a + b;
-        }
-
-        static int Multiply(int a, int b)
-        {
-            return a * b;
-        }
-
-        static int Subtract(int a, int b)
-        {
-            return a - b;
-        }
-
-        #endregion
-
-        #region Generic methods
-
-        static void PrintGreen<T>(T value) where T : struct
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(value);
-            Console.ResetColor();
-        }
-
-        static void PrintRed<T>(T value) where T : struct
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(value);
-            Console.ResetColor();
-        }
-
-        static void PrintBlue<T>(T value) where T : struct
-        {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(value);
-            Console.ResetColor();
-        }
-
-        static void Swap<T>(ref T a, ref T b)
-        {
-            T temp = a;
-            a = b;
-            b = temp;
-        }
-
-        #endregion
     }
 }
