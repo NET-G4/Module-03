@@ -1,9 +1,10 @@
-﻿namespace Lesson02
+﻿namespace modul3_lesson2
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+<<<<<<< Updated upstream
             #region Reference types, ref & out
 
             //Person person = new Person() { Id = 1, Name = "Tom" };
@@ -174,6 +175,55 @@
         public void ChangeName(string name)
         {
             Name = name;
+=======
+            Menu();
+            DamolishKunimi();
+
+        }
+
+        static void Menu()
+        {
+            Console.WriteLine("1. Dushanba");
+            Console.WriteLine("2. Seshanba");
+            Console.WriteLine("3. Chorshanba");
+            Console.WriteLine("4. Payshanba");
+            Console.WriteLine("5. Juma");
+            Console.WriteLine("6. Shanba");
+            Console.WriteLine("7. Yakshanba");
+            Console.WriteLine();
+        }
+        static void DamolishKunimi()
+        {
+            Console.Write("Marhamat tanlang - ");
+            int number = int.Parse(Console.ReadLine());
+            Console.Clear();
+
+            HaftaKuni haftaKuni = (HaftaKuni)number;
+
+            if (number != 6 && number != 7)
+            {
+                Console.Write(haftaKuni);
+                Console.WriteLine(" dam olish kuni emas.");
+                
+            }
+            else
+            {
+                Console.Write(haftaKuni);
+                Console.WriteLine(" dam olish kuni");
+            }
+            
+        }
+
+        enum HaftaKuni
+        {
+            Dushanba = 1,
+            Seshanba,
+            Chorshanba,
+            Payshanba,
+            Juma,
+            Shanba,
+            Yakshanba
+>>>>>>> Stashed changes
         }
     }
 }

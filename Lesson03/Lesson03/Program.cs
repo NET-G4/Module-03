@@ -18,15 +18,21 @@
     // yig'ib umumiy o'rta qiymatini (sum / n) qaytaradi.
     internal class Program
     {
-        public delegate void PrintMessage();
+       /* public delegate void PrintMessage();
         public delegate int Transform(int x);
         public delegate void DisplayNumber(int x);
 
         public delegate bool ValidateNumber(int number);
         public delegate void Greet(bool isSignedIn);
+*/
 
+        public delegate bool Any( int x, bool y);
+        public delegate int Sum(int x);
         static void Main(string[] args)
         {
+            
+
+
             #region Sample 1
 
             // PrintMessage printMessage = new PrintMessage(Hello);
@@ -60,7 +66,9 @@
             #endregion
 
             int[] numbers =
-                { -5, -7, -10, -50, -4, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                {1, 2, 3, 4 };
+            Sum12(numbers, SumMM); 
+            Sum12(numbers, SumMM1); 
 
             //Transform transformer = Square;
             //transformer += Cube;
@@ -73,7 +81,7 @@
             //DisplayNumbers(numbers, IsEven);
             //DisplayNumbers(numbers, IsPositive);
 
-            string language = Console.ReadLine();
+            /*string language = Console.ReadLine();
 
             if (language == "uz")
             {
@@ -82,41 +90,61 @@
             else
             {
                 StartApplication(WelcomeUserEn);
-            }
+            }*/
         }
 
-        static void DisplayHello(string name, int age)
+        public static void Sum12(int[] x, Sum delegate1)
         {
-            if (age > 17)
+            int summ = 0;
+            foreach (var i in x)
             {
-                Console.WriteLine($"Hello: {name}. You can take driver license");
+                summ += delegate1(i);
             }
-            else
-            {
-                Console.WriteLine($"Hello: {name}. You cannot take driver license");
-            }
+            Console.WriteLine(summ);
         }
 
-        static void StartApplication(Greet greet)
+        public static int SumMM(int x)
+        {
+           return x * x;
+        }
+
+        public static int SumMM1(int x)
+        {
+            return x + x;
+        }
+
+        /* static void DisplayHello(string name, int age)
+         {
+             if (age > 17)
+             {
+                 Console.WriteLine($"Hello: {name}. You can take driver license");
+             }
+             else
+             {
+                 Console.WriteLine($"Hello: {name}. You cannot take driver license");
+             }
+         }*/
+
+        /*static void StartApplication(Greet greet)
         {
             bool isSignedIn = true;
 
             greet(isSignedIn);
         }
+*/
+        /*  static void WelcomeUserUzb(bool isSignedIn)
+          {
+              if (isSignedIn)
+              {
+                  Console.WriteLine("Qayta ko'rishdan xursandmiz!");
+              }
+              else
+              {
+                  Console.WriteLine("Xush kelibsiz!");
+              }
+          }*/
 
-        static void WelcomeUserUzb(bool isSignedIn)
-        {
-            if (isSignedIn)
-            {
-                Console.WriteLine("Qayta ko'rishdan xursandmiz!");
-            }
-            else
-            {
-                Console.WriteLine("Xush kelibsiz!");
-            }
-        }
-
-        static void WelcomeUserEn(bool isSignedIn)
+        /*static void WelcomeUserEn(bool isSignedIn)
         {
             if (isSignedIn)
             {
@@ -277,5 +305,6 @@
     {
         public string Name { get; set; }
         public int age { get; set; }
+    }*/
     }
 }
