@@ -1,133 +1,158 @@
-﻿namespace Lesson04
+﻿using System.Runtime.ExceptionServices;
+
+namespace Lesson04
 {
     internal class Program
     {
-        // 1.
-        // COUNT(int[] array, Predicate<int> predicate) -> int
-        // massiv qabul qilib, shartni qanoatlantiradigan
-        // elementlar sonini qaytaradi
-        // 2.
-        // MAX(int[] array, Predicate<int> predicate) -> int
-        // massiv qabul qilib, shartni qanoatlantiradigan
-        // elementlardan maksimal qiymanti qaytaradi
-        // 3.
-        // MIN(int[] array, Predicate<int> predicate) -> int
-        // massiv qabul qilib, shartni qanoatlantiradigan
-        // elementlardan minimal qiymanti qaytaradi
-        // 4.
-        // Where (int[] array, Predicate<int> predicate) -> int[]
-        // massiv qabul qilib, shartni qanoatlantiradigan elementlarni
-        // massivini qaytaradi.
-        // 5.
-        // Convert(decimal[] array, Func<decimal, decimal> converter) -> decimal[]
-        // massiv qabul qilib, sonlarni o'zgartirib elementlarni natijasini qayataridi
-
         public static void Main(string[] args)
         {
-            int[] evenNumbers = { 2, 4, 6, 8, 10 };
-            int[] oddNumbers = { 1, 3, 5, 7, 9 };
-            int[] evenNumbersWithOneOdd = { 2, 4, 6, 8, 9 };
-            int[] oddNumbersWithOneEven = { 1, 3, 5, 7, 8 };
+            int[] someNumbers = { 3, 21 , 24, 27, 9 , 91 , 63,-147};
 
-            int[] positiveNumbers = { 1, 2, 3, 4, 5 };
-            int[] negativeNumbers = { -1, -2, -3, -4, -5 };
-            int[] positiveNumbersWithOneNegative = { 1, 2, 3, 4, -5 };
-            int[] negativeNumbersWithOnePositive = { -1, -2, -3, -4, 5 };
+            #region Count
+            int Divisible3Count = Count(someNumbers, DivisibleBy3);
+            int Divisible7Count = Count(someNumbers, DivisibleBy7);
 
-            #region All
-
-            Console.WriteLine("---- All ----");
-
-            // check if all numbers are positive
-            bool isAllEven = Homework.All(evenNumbers, IsEven); // true
-            bool isAllOdd = Homework.All(oddNumbers, IsOdd);
-            bool res1 = Homework.All(evenNumbersWithOneOdd, IsEven);
-            bool res2 = Homework.All(oddNumbersWithOneEven, IsOdd);
-
-            Console.WriteLine(isAllEven);
-            Console.WriteLine(isAllOdd);
-            Console.WriteLine(res1);
-            Console.WriteLine(res2);
-
+            Console.WriteLine($"Massivdagi 3 ga bo'linuvchilar soni: {Divisible3Count}");
+            Console.WriteLine($"Massivdagi 7 ga bo'linuvchilar soni: {Divisible7Count}");
+            Console.WriteLine();
             #endregion
+            #region Max
+            int maxDivisible3 = Max(someNumbers, DivisibleBy3);
+            int maxDivisible7 = Max(someNumbers, DivisibleBy7);
 
-            #region Any
-
-            Console.WriteLine("---- Any ----");
-
-            bool any1 = Homework.Any(positiveNumbers, IsNegative); // true
-            bool any2 = Homework.Any(negativeNumbers, IsPositive);
-            bool any3 = Homework.Any(positiveNumbersWithOneNegative, IsNegative);
-            bool any4 = Homework.Any(negativeNumbersWithOnePositive, IsPositive);
-
-            Console.WriteLine(any1);
-            Console.WriteLine(any2);
-            Console.WriteLine(any3);
-            Console.WriteLine(any4);
-
+            Console.WriteLine($"Massiivdagi eng katta 3 ga bo'linuvchi : {maxDivisible3}");
+            Console.WriteLine($"Massiivdagi eng katta 7 ga bo'linuvchi : {maxDivisible7}");
+            Console.WriteLine();
             #endregion
+            #region Min
+            int minDivisible3 = Min(someNumbers, DivisibleBy3);
+            int minDivisible7 = Min(someNumbers, DivisibleBy7);
 
-            #region Sum
-
-            Console.WriteLine("---- Sum ----");
-
-            int sum1 = Homework.Sum(positiveNumbers, Square); // 55
-            int sum2 = Homework.Sum(negativeNumbers, Square);
-            int sum3 = Homework.SumFunc(positiveNumbersWithOneNegative, Cube);
-            int sum4 = Homework.SumFunc(negativeNumbersWithOnePositive, Cube);
-
-            Console.WriteLine(sum1);
-            Console.WriteLine(sum2);
-            Console.WriteLine(sum3);
-            Console.WriteLine(sum4);
-
+            Console.WriteLine($"Massiivdagi eng kichik 3 ga bo'linuvchi : {minDivisible3}");
+            Console.WriteLine($"Massiivdagi eng kichik 7 ga bo'linuvchi : {minDivisible7}");
+            Console.WriteLine();
             #endregion
+            #region Where
+            int[] elementsDivisible3 = Where(someNumbers, DivisibleBy3);
+            int[] elementsDivisible7 = Where(someNumbers, DivisibleBy7);
 
-            #region Average
+            Console.WriteLine("massivning 3 ga bo'linuvchi elementalari : ");
+            foreach (int number in elementsDivisible3)
+            {
+                Console.Write(number + " ");
+            }
+            Console.WriteLine();
 
-            Console.WriteLine("---- Average ---- ");
+            Console.WriteLine("massivning 7 ga bo'linuvchi elementalari : ");
+            foreach (int number in elementsDivisible3)
+            {
+                Console.Write(number + " ");
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+            #endregion
+            #region Converter
+            decimal[] USD = { 10_000, 20_000, 4_000 };
+            decimal[] RUB = { 10_000, 20_000, 4_000 };
 
-            int average1 = Homework.Average(positiveNumbers, Square);
-            int average2 = Homework.Average(negativeNumbers, Square);
-            int average3 = Homework.AverageFunc(positiveNumbersWithOneNegative, Cube);
-            int average4 = Homework.AverageFunc(negativeNumbersWithOnePositive, Cube);
+            decimal[] UZS1 = Convert(USD, GetUSDCourse);
+            decimal[] UZS2 = Convert(RUB, GetUSDCourse);
 
-            Console.WriteLine(average1);
-            Console.WriteLine(average2);
-            Console.WriteLine(average3);
-            Console.WriteLine(average4);
+            Console.Write("USD : ");
+            foreach(var i in USD)
+            {
+                Console.Write(i +  " ");
+            }
+            Console.WriteLine();
 
+            Console.Write("UZS : ");
+            foreach (var i in UZS1)
+            {
+                Console.Write(i +  " ");
+            }
+            Console.WriteLine();
+
+            Console.Write("RUB : ");
+            foreach (var i in RUB)
+            {
+                Console.Write(i +  " ");
+            }
+            Console.WriteLine();
+
+            Console.Write("UZS : ");
+            foreach (var i in UZS2)
+            {
+                Console.Write(i +  " ");
+            }
+            Console.WriteLine();
             #endregion
         }
-
-        static bool IsEven(int number)
+        #region methods with delegates
+        static int Count(int[] array, Predicate<int> predicate)
         {
-            return number % 2 == 0;
+            return array
+                .Where(x => predicate(x))
+                .ToList()
+                .Count;
         }
-
-        static bool IsOdd(int number)
+        static int Max(int[] array, Predicate<int>predicate)
         {
-            return number % 2 != 0;
+            return array
+                .Where(x => predicate(x))
+                .Max();
         }
-
-        static bool IsPositive(int number)
+        static int Min(int[] array, Predicate<int> predicate)
         {
-            return number >= 0;
+            return array
+                .Where(x => predicate(x))
+                .Min();
         }
+        static int[] Where(int[] array , Predicate<int> predicate)
+        {           
+            return array
+                .Where(x => predicate(x))
+                .ToArray();
 
-        static bool IsNegative(int number)
-        {
-            return number < 0;
+            ///simple version
+            List<int> list = new List<int>();
+            foreach(int i in array)
+            {
+                if (predicate(i))
+                {
+                    list.Add(i);
+                }
+            }
+            return list.ToArray(); 
         }
+        static decimal[] Convert(decimal[] array, Func<decimal, decimal> converter)
+        {
+            List<decimal> list = new List<decimal>();
+            foreach(var i in array)
+            {
+                list.Add(converter(i));
+            }
+            return list.ToArray();
+        }
+        #endregion
 
-        static int Square(int number)
+        #region simple Methods
+        static bool DivisibleBy3(int x)
         {
-            return number * number;
+            return x % 3 == 0;
         }
+        static bool DivisibleBy7(int x)
+        {
+            return x % 7 == 0;
+        }
+        static decimal GetUSDCourse(decimal x)
+        {
+            return x * 12_800;
+        }
+        static decimal GetRUBCourse(decimal x)
+        {
+            return x * 110;
+        }
+        #endregion
 
-        static int Cube(int number)
-        {
-            return (int)Math.Pow(number, 3);
-        }
     }
 }
