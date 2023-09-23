@@ -1,192 +1,158 @@
-﻿namespace Lesson04
+﻿using System.Runtime.ExceptionServices;
+
+namespace Lesson04
 {
     internal class Program
     {
-        public delegate void PrintMessage(string message);
-
-        // Func<TResult>, Func<T1, TResult>, .... Func<T16, TResult>
-        // Action<T1>, Action<T1, T2>, ... Action<T16>
-        // Predicate<T>, Predicate<T1, T2>, ... Predicate<T16>
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            #region delegates review
+            int[] someNumbers = { 3, 21 , 24, 27, 9 , 91 , 63,-147};
 
-            // PrintMessage messagePrinter = new Delegate(PrintMessage);
-            //PrintMessage messagePrinter = PrintHello;
-            //messagePrinter += PrintGoodbye;
+            #region Count
+            int Divisible3Count = Count(someNumbers, DivisibleBy3);
+            int Divisible7Count = Count(someNumbers, DivisibleBy7);
 
-            //messagePrinter("John");
-
-            //messagePrinter.Invoke("Jane");
-
-            //messagePrinter = null;
-
-            //if (messagePrinter != null)
-            //{
-            //    messagePrinter("Robert");
-            //}
-
-            //messagePrinter?.Invoke("Robert");
-
-            // --- //
-
-            //Person person = new Person()
-            //{
-            //    Id = 1,
-            //    Name = "John"
-            //};
-
-            //RegisterUser(person, GreetUser);
-            //RegisterUser(person, GreetUserRu);
-            //RegisterUser(person, GreetUserUz);
-
+            Console.WriteLine($"Massivdagi 3 ga bo'linuvchilar soni: {Divisible3Count}");
+            Console.WriteLine($"Massivdagi 7 ga bo'linuvchilar soni: {Divisible7Count}");
+            Console.WriteLine();
             #endregion
+            #region Max
+            int maxDivisible3 = Max(someNumbers, DivisibleBy3);
+            int maxDivisible7 = Max(someNumbers, DivisibleBy7);
 
-            #region Generics
-
-            // PrintRed<string>("Hello");
-            //PrintRed("Hello");
-            //PrintRed(123);
-            //PrintRed(true);
-
-            //Student student = new Student()
-            //{
-            //    Id = 2,
-            //    Name = "Jane",
-            //    StudentNumber = 512
-            //};
-
-            // student.DisplayInfo();
-
-            // PrintRed(student);
-
-            // var newStudent = PrintRed<Student, int>(student, 2);
-
-            //Person john = new Student();
-            //john.Id = 4;
-            //john.Name = "John";
-            //Student student = (Student)john;
-            //student.StudentNumber = 5;
-
-            //Console.WriteLine(student.Name);
-            //student.DisplayInfo();
-
-            //Console.WriteLine();
-            //student.Name = "Student";
-
-            //Console.WriteLine(student.Name);
-            //Console.WriteLine(john.Name);
-
+            Console.WriteLine($"Massiivdagi eng katta 3 ga bo'linuvchi : {maxDivisible3}");
+            Console.WriteLine($"Massiivdagi eng katta 7 ga bo'linuvchi : {maxDivisible7}");
+            Console.WriteLine();
             #endregion
+            #region Min
+            int minDivisible3 = Min(someNumbers, DivisibleBy3);
+            int minDivisible7 = Min(someNumbers, DivisibleBy7);
 
-            //ExecuteOperation(5, 7, Add, PrintGreen<int>);
-            //ExecuteOperation(5, 7, Multiply, PrintRed);
-            //ExecuteOperation(5, 7, Subtract, PrintBlue);
-        }
+            Console.WriteLine($"Massiivdagi eng kichik 3 ga bo'linuvchi : {minDivisible3}");
+            Console.WriteLine($"Massiivdagi eng kichik 7 ga bo'linuvchi : {minDivisible7}");
+            Console.WriteLine();
+            #endregion
+            #region Where
+            int[] elementsDivisible3 = Where(someNumbers, DivisibleBy3);
+            int[] elementsDivisible7 = Where(someNumbers, DivisibleBy7);
 
-        #region Delegate methods
-
-        static void RegisterUser(Person person, PrintMessage printMessage)
-        {
-            // database -> registration
-
-            bool isSuccess = true; //registration
-
-            if (isSuccess)
+            Console.WriteLine("massivning 3 ga bo'linuvchi elementalari : ");
+            foreach (int number in elementsDivisible3)
             {
-                printMessage(person.Name);
+                Console.Write(number + " ");
             }
-        }
+            Console.WriteLine();
 
-        static void GreetUser(string name)
+            Console.WriteLine("massivning 7 ga bo'linuvchi elementalari : ");
+            foreach (int number in elementsDivisible3)
+            {
+                Console.Write(number + " ");
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+            #endregion
+            #region Converter
+            decimal[] USD = { 10_000, 20_000, 4_000 };
+            decimal[] RUB = { 10_000, 20_000, 4_000 };
+
+            decimal[] UZS1 = Convert(USD, GetUSDCourse);
+            decimal[] UZS2 = Convert(RUB, GetUSDCourse);
+
+            Console.Write("USD : ");
+            foreach(var i in USD)
+            {
+                Console.Write(i +  " ");
+            }
+            Console.WriteLine();
+
+            Console.Write("UZS : ");
+            foreach (var i in UZS1)
+            {
+                Console.Write(i +  " ");
+            }
+            Console.WriteLine();
+
+            Console.Write("RUB : ");
+            foreach (var i in RUB)
+            {
+                Console.Write(i +  " ");
+            }
+            Console.WriteLine();
+
+            Console.Write("UZS : ");
+            foreach (var i in UZS2)
+            {
+                Console.Write(i +  " ");
+            }
+            Console.WriteLine();
+            #endregion
+        }
+        #region methods with delegates
+        static int Count(int[] array, Predicate<int> predicate)
         {
-            Console.WriteLine($"Hello, {name}");
+            return array
+                .Where(x => predicate(x))
+                .ToList()
+                .Count;
         }
-
-        static void GreetUserUz(string name)
+        static int Max(int[] array, Predicate<int>predicate)
         {
-            Console.WriteLine($"Salom, {name}");
+            return array
+                .Where(x => predicate(x))
+                .Max();
         }
-
-        static void GreetUserRu(string name)
+        static int Min(int[] array, Predicate<int> predicate)
         {
-            Console.WriteLine($"Привет, {name}");
+            return array
+                .Where(x => predicate(x))
+                .Min();
         }
+        static int[] Where(int[] array , Predicate<int> predicate)
+        {           
+            return array
+                .Where(x => predicate(x))
+                .ToArray();
 
-        static void PrintHello(string name)
+            ///simple version
+            List<int> list = new List<int>();
+            foreach(int i in array)
+            {
+                if (predicate(i))
+                {
+                    list.Add(i);
+                }
+            }
+            return list.ToArray(); 
+        }
+        static decimal[] Convert(decimal[] array, Func<decimal, decimal> converter)
         {
-            Console.WriteLine($"Hello: {name}");
+            List<decimal> list = new List<decimal>();
+            foreach(var i in array)
+            {
+                list.Add(converter(i));
+            }
+            return list.ToArray();
         }
-
-        static void PrintGoodbye(string name)
-        {
-            Console.WriteLine($"Goodbye: {name}");
-        }
-
-        static int CalculateLength(string name)
-        {
-            return name.Length;
-        }
-
-        static void PrintError(string errorMessage, int errorCode)
-        {
-            Console.WriteLine($"Error: {errorMessage} ({errorCode})");
-        }
-
-        static void ExecuteOperation(int a, int b, Func<int, int, int> func, Action<int> display)
-        {
-            int result = func(a, b);
-
-            display(result);
-        }
-
-        static int Add(int a, int b)
-        {
-            return a + b;
-        }
-
-        static int Multiply(int a, int b)
-        {
-            return a * b;
-        }
-
-        static int Subtract(int a, int b)
-        {
-            return a - b;
-        }
-
         #endregion
 
-        #region Generic methods
-
-        static void PrintGreen<T>(T value) where T : struct
+        #region simple Methods
+        static bool DivisibleBy3(int x)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(value);
-            Console.ResetColor();
+            return x % 3 == 0;
         }
-
-        static void PrintRed<T>(T value) where T : struct
+        static bool DivisibleBy7(int x)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(value);
-            Console.ResetColor();
+            return x % 7 == 0;
         }
-
-        static void PrintBlue<T>(T value) where T : struct
+        static decimal GetUSDCourse(decimal x)
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(value);
-            Console.ResetColor();
+            return x * 12_800;
         }
-
-        static void Swap<T>(ref T a, ref T b)
+        static decimal GetRUBCourse(decimal x)
         {
-            T temp = a;
-            a = b;
-            b = temp;
+            return x * 110;
         }
-
         #endregion
+
     }
 }
