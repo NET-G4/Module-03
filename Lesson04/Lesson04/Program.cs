@@ -1,7 +1,11 @@
-﻿namespace Lesson04
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Lesson04
 {
     internal class Program
     {
+        public delegate void Print1(string som);
+
         // 1.
         // COUNT(int[] array, Predicate<int> predicate) -> int
         // massiv qabul qilib, shartni qanoatlantiradigan
@@ -24,81 +28,122 @@
 
         public static void Main(string[] args)
         {
-            int[] evenNumbers = { 2, 4, 6, 8, 10 };
-            int[] oddNumbers = { 1, 3, 5, 7, 9 };
-            int[] evenNumbersWithOneOdd = { 2, 4, 6, 8, 9 };
-            int[] oddNumbersWithOneEven = { 1, 3, 5, 7, 8 };
 
-            int[] positiveNumbers = { 1, 2, 3, 4, 5 };
-            int[] negativeNumbers = { -1, -2, -3, -4, -5 };
-            int[] positiveNumbersWithOneNegative = { 1, 2, 3, 4, -5 };
-            int[] negativeNumbersWithOnePositive = { -1, -2, -3, -4, 5 };
+            int[] number = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            decimal[] numberValutaUSD = { 100, 1000, 43, 12, 56, 113 };
+            decimal[] numberValuteUZS = { 1_000_000, 1_2374_000, 3_000, 34_000};
 
-            #region All
+            #region Count
 
-            Console.WriteLine("---- All ----");
-
-            // check if all numbers are positive
-            bool isAllEven = Homework.All(evenNumbers, IsEven); // true
-            bool isAllOdd = Homework.All(oddNumbers, IsOdd);
-            bool res1 = Homework.All(evenNumbersWithOneOdd, IsEven);
-            bool res2 = Homework.All(oddNumbersWithOneEven, IsOdd);
-
-            Console.WriteLine(isAllEven);
-            Console.WriteLine(isAllOdd);
-            Console.WriteLine(res1);
-            Console.WriteLine(res2);
+            /*Console.WriteLine(Count(number, IsEven));
+            Console.WriteLine(Count(number, IsPositive));
+            Console.WriteLine(Count(number, IsOdd));*/
 
             #endregion
 
-            #region Any
 
-            Console.WriteLine("---- Any ----");
+            #region Max
+            /*
+            Console.WriteLine(Max1(number, IsEven));
+            Console.WriteLine(Max1(number, IsOdd));
+            Console.WriteLine(Max1(number, IsNegative));
+            Console.WriteLine(Max1(number, Ildiz));
+            */
+            #endregion
 
-            bool any1 = Homework.Any(positiveNumbers, IsNegative); // true
-            bool any2 = Homework.Any(negativeNumbers, IsPositive);
-            bool any3 = Homework.Any(positiveNumbersWithOneNegative, IsNegative);
-            bool any4 = Homework.Any(negativeNumbersWithOnePositive, IsPositive);
 
-            Console.WriteLine(any1);
-            Console.WriteLine(any2);
-            Console.WriteLine(any3);
-            Console.WriteLine(any4);
+            #region WHERE
+            /*
+            Where(number, IsEven);
+            Console.WriteLine();
+            Where(number, Ildiz);
+            Console.WriteLine();
+            Where(number, IsOdd);
+            */
+            #endregion
+            
+            #region CONVERTER
+
+            Convert(numberValutaUSD, USD_UZS);
+            Console.WriteLine("---------------------");
+            Convert(numberValuteUZS, UZS_USD);
 
             #endregion
 
-            #region Sum
 
-            Console.WriteLine("---- Sum ----");
-
-            int sum1 = Homework.Sum(positiveNumbers, Square); // 55
-            int sum2 = Homework.Sum(negativeNumbers, Square);
-            int sum3 = Homework.SumFunc(positiveNumbersWithOneNegative, Cube);
-            int sum4 = Homework.SumFunc(negativeNumbersWithOnePositive, Cube);
-
-            Console.WriteLine(sum1);
-            Console.WriteLine(sum2);
-            Console.WriteLine(sum3);
-            Console.WriteLine(sum4);
-
-            #endregion
-
-            #region Average
-
-            Console.WriteLine("---- Average ---- ");
-
-            int average1 = Homework.Average(positiveNumbers, Square);
-            int average2 = Homework.Average(negativeNumbers, Square);
-            int average3 = Homework.AverageFunc(positiveNumbersWithOneNegative, Cube);
-            int average4 = Homework.AverageFunc(negativeNumbersWithOnePositive, Cube);
-
-            Console.WriteLine(average1);
-            Console.WriteLine(average2);
-            Console.WriteLine(average3);
-            Console.WriteLine(average4);
-
-            #endregion
         }
+
+        #region Count method
+        public static int Count(int[] numbers, Predicate<int> predicate)
+        {
+            int count = 0;
+            foreach (int i in numbers)
+            {
+                if (predicate(i) == true)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        #endregion
+
+        #region MaxMethod
+        public static int Max1(int[] numbers, Predicate<int> predicate)
+        {
+            int max = int.MinValue;
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                if (predicate(numbers[i]))
+                {
+                    if (numbers[i] > max)
+                    {
+                        max = numbers[i];
+                    }
+                }
+            }
+            return max;
+        }
+
+        #endregion
+
+        #region WhereMethod
+
+        public static void Where(int[] numbers, Predicate<int> predicate)
+        {
+            int[] arr = new int[100];
+            int count = 0;
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                if (predicate(numbers[i]))
+                {
+                    arr[count] = numbers[i];
+                    count++;
+                }
+                // Console.WriteLine();
+            }
+            for (int i = 0; i < count; i++)
+            {
+                Console.Write(arr[i] + " ");
+            }
+            //return 1;
+        }
+
+        #endregion
+
+        #region ConvertMethod
+
+        public static void Convert(decimal[] decimals, Func<decimal, decimal> converter)
+        {
+            for (int i = 0; i < decimals.Length; i++)
+            {
+                decimals[i] = converter(decimals[i]);
+                Console.WriteLine(decimals[i] + " ");
+            }
+        }
+
+        #endregion
 
         static bool IsEven(int number)
         {
@@ -120,14 +165,34 @@
             return number < 0;
         }
 
-        static int Square(int number)
+        static bool Ildiz(int number)
         {
-            return number * number;
+            double a = Math.Sqrt(number);
+            double b = Math.Pow(a, 2);
+
+            return (number == b);
         }
 
-        static int Cube(int number)
+        public static decimal USD_UZS(decimal decimals)
         {
-            return (int)Math.Pow(number, 3);
+            decimal HozirgiKursUSD = 12374;//somda  1usd 
+
+            return HozirgiKursUSD * decimals;
+        }
+
+        public static decimal UZS_USD(decimal decimals)
+        {
+            decimal HozirgiKursUZS = (decimal)0.081; 
+
+            return HozirgiKursUZS * decimals;
+        }
+        public static void SOM(string som)
+        {
+            Console.WriteLine(" som");
+        } 
+        public static void Dollar(string dollar)
+        {
+            Console.WriteLine(" $");
         }
     }
 }
