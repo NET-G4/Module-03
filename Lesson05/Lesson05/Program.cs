@@ -7,10 +7,6 @@ namespace Lesson05
     {
         static void Main(string[] args)
         {
-<<<<<<< Updated upstream
-            Console.WriteLine("Hello, World!");
-        }
-=======
             Exception error = null;
             try
             {
@@ -94,6 +90,5 @@ namespace Lesson05
             Console.WriteLine("Divide finished");
             return result;
         }
->>>>>>> Stashed changes
     }
 }
