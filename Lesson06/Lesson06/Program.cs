@@ -97,6 +97,45 @@ namespace Lesson06
             //Console.WriteLine();
 
             #endregion
+
+            #region Exceptions
+
+            Student student = new Student("123a");
+            student.Id = 1;
+            student.Name = "John";
+            Student student1 = new Student("s123");
+            student1.Id = 2;
+            student1.Name = "Robert";
+
+            Teacher teacher = new Teacher();
+            teacher.Id = 1;
+            teacher.FullName = "Steve T";
+
+            Subject subject = new Subject();
+            subject.Id = 1;
+            subject.Name = "Csharp";
+            subject.Price = 100;
+            subject.Hours = 80;
+
+            Enrollment enrollment = new Enrollment(subject, teacher);
+            
+            try
+            {
+                student.Enroll(enrollment);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("There was an error.");
+            }
+
+            List<Subject> studentSubjects = student.GetSubjects();
+
+            foreach(var studentSubject in studentSubjects)
+            {
+                Console.WriteLine(studentSubject.Name);
+            }
+
+            #endregion
         }
     }
 }
