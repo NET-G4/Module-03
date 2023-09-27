@@ -1,192 +1,198 @@
-﻿namespace Lesson04
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Lesson04
 {
     internal class Program
     {
-        public delegate void PrintMessage(string message);
+        public delegate void Print1(string som);
 
-        // Func<TResult>, Func<T1, TResult>, .... Func<T16, TResult>
-        // Action<T1>, Action<T1, T2>, ... Action<T16>
-        // Predicate<T>, Predicate<T1, T2>, ... Predicate<T16>
-        static void Main(string[] args)
+        // 1.
+        // COUNT(int[] array, Predicate<int> predicate) -> int
+        // massiv qabul qilib, shartni qanoatlantiradigan
+        // elementlar sonini qaytaradi
+        // 2.
+        // MAX(int[] array, Predicate<int> predicate) -> int
+        // massiv qabul qilib, shartni qanoatlantiradigan
+        // elementlardan maksimal qiymanti qaytaradi
+        // 3.
+        // MIN(int[] array, Predicate<int> predicate) -> int
+        // massiv qabul qilib, shartni qanoatlantiradigan
+        // elementlardan minimal qiymanti qaytaradi
+        // 4.
+        // Where (int[] array, Predicate<int> predicate) -> int[]
+        // massiv qabul qilib, shartni qanoatlantiradigan elementlarni
+        // massivini qaytaradi.
+        // 5.
+        // Convert(decimal[] array, Func<decimal, decimal> converter) -> decimal[]
+        // massiv qabul qilib, sonlarni o'zgartirib elementlarni natijasini qayataridi
+
+        public static void Main(string[] args)
         {
-            #region delegates review
 
-            // PrintMessage messagePrinter = new Delegate(PrintMessage);
-            //PrintMessage messagePrinter = PrintHello;
-            //messagePrinter += PrintGoodbye;
+            int[] number = { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            decimal[] numberValutaUSD = { 100, 1000, 43, 12, 56, 113 };
+            decimal[] numberValuteUZS = { 1_000_000, 1_2374_000, 3_000, 34_000};
 
-            //messagePrinter("John");
+            #region Count
 
-            //messagePrinter.Invoke("Jane");
-
-            //messagePrinter = null;
-
-            //if (messagePrinter != null)
-            //{
-            //    messagePrinter("Robert");
-            //}
-
-            //messagePrinter?.Invoke("Robert");
-
-            // --- //
-
-            //Person person = new Person()
-            //{
-            //    Id = 1,
-            //    Name = "John"
-            //};
-
-            //RegisterUser(person, GreetUser);
-            //RegisterUser(person, GreetUserRu);
-            //RegisterUser(person, GreetUserUz);
+            /*Console.WriteLine(Count(number, IsEven));
+            Console.WriteLine(Count(number, IsPositive));
+            Console.WriteLine(Count(number, IsOdd));*/
 
             #endregion
 
-            #region Generics
 
-            // PrintRed<string>("Hello");
-            //PrintRed("Hello");
-            //PrintRed(123);
-            //PrintRed(true);
+            #region Max
+            /*
+            Console.WriteLine(Max1(number, IsEven));
+            Console.WriteLine(Max1(number, IsOdd));
+            Console.WriteLine(Max1(number, IsNegative));
+            Console.WriteLine(Max1(number, Ildiz));
+            */
+            #endregion
 
-            //Student student = new Student()
-            //{
-            //    Id = 2,
-            //    Name = "Jane",
-            //    StudentNumber = 512
-            //};
 
-            // student.DisplayInfo();
+            #region WHERE
+            /*
+            Where(number, IsEven);
+            Console.WriteLine();
+            Where(number, Ildiz);
+            Console.WriteLine();
+            Where(number, IsOdd);
+            */
+            #endregion
+            
+            #region CONVERTER
 
-            // PrintRed(student);
-
-            // var newStudent = PrintRed<Student, int>(student, 2);
-
-            //Person john = new Student();
-            //john.Id = 4;
-            //john.Name = "John";
-            //Student student = (Student)john;
-            //student.StudentNumber = 5;
-
-            //Console.WriteLine(student.Name);
-            //student.DisplayInfo();
-
-            //Console.WriteLine();
-            //student.Name = "Student";
-
-            //Console.WriteLine(student.Name);
-            //Console.WriteLine(john.Name);
+            Convert(numberValutaUSD, USD_UZS);
+            Console.WriteLine("---------------------");
+            Convert(numberValuteUZS, UZS_USD);
 
             #endregion
 
-            //ExecuteOperation(5, 7, Add, PrintGreen<int>);
-            //ExecuteOperation(5, 7, Multiply, PrintRed);
-            //ExecuteOperation(5, 7, Subtract, PrintBlue);
+
         }
 
-        #region Delegate methods
-
-        static void RegisterUser(Person person, PrintMessage printMessage)
+        #region Count method
+        public static int Count(int[] numbers, Predicate<int> predicate)
         {
-            // database -> registration
-
-            bool isSuccess = true; //registration
-
-            if (isSuccess)
+            int count = 0;
+            foreach (int i in numbers)
             {
-                printMessage(person.Name);
+                if (predicate(i) == true)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        #endregion
+
+        #region MaxMethod
+        public static int Max1(int[] numbers, Predicate<int> predicate)
+        {
+            int max = int.MinValue;
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                if (predicate(numbers[i]))
+                {
+                    if (numbers[i] > max)
+                    {
+                        max = numbers[i];
+                    }
+                }
+            }
+            return max;
+        }
+
+        #endregion
+
+        #region WhereMethod
+
+        public static void Where(int[] numbers, Predicate<int> predicate)
+        {
+            int[] arr = new int[100];
+            int count = 0;
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                if (predicate(numbers[i]))
+                {
+                    arr[count] = numbers[i];
+                    count++;
+                }
+                // Console.WriteLine();
+            }
+            for (int i = 0; i < count; i++)
+            {
+                Console.Write(arr[i] + " ");
+            }
+            //return 1;
+        }
+
+        #endregion
+
+        #region ConvertMethod
+
+        public static void Convert(decimal[] decimals, Func<decimal, decimal> converter)
+        {
+            for (int i = 0; i < decimals.Length; i++)
+            {
+                decimals[i] = converter(decimals[i]);
+                Console.WriteLine(decimals[i] + " ");
             }
         }
 
-        static void GreetUser(string name)
-        {
-            Console.WriteLine($"Hello, {name}");
-        }
-
-        static void GreetUserUz(string name)
-        {
-            Console.WriteLine($"Salom, {name}");
-        }
-
-        static void GreetUserRu(string name)
-        {
-            Console.WriteLine($"Привет, {name}");
-        }
-
-        static void PrintHello(string name)
-        {
-            Console.WriteLine($"Hello: {name}");
-        }
-
-        static void PrintGoodbye(string name)
-        {
-            Console.WriteLine($"Goodbye: {name}");
-        }
-
-        static int CalculateLength(string name)
-        {
-            return name.Length;
-        }
-
-        static void PrintError(string errorMessage, int errorCode)
-        {
-            Console.WriteLine($"Error: {errorMessage} ({errorCode})");
-        }
-
-        static void ExecuteOperation(int a, int b, Func<int, int, int> func, Action<int> display)
-        {
-            int result = func(a, b);
-
-            display(result);
-        }
-
-        static int Add(int a, int b)
-        {
-            return a + b;
-        }
-
-        static int Multiply(int a, int b)
-        {
-            return a * b;
-        }
-
-        static int Subtract(int a, int b)
-        {
-            return a - b;
-        }
-
         #endregion
 
-        #region Generic methods
-
-        static void PrintGreen<T>(T value) where T : struct
+        static bool IsEven(int number)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(value);
-            Console.ResetColor();
+            return number % 2 == 0;
         }
 
-        static void PrintRed<T>(T value) where T : struct
+        static bool IsOdd(int number)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(value);
-            Console.ResetColor();
+            return number % 2 != 0;
         }
 
-        static void PrintBlue<T>(T value) where T : struct
+        static bool IsPositive(int number)
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(value);
-            Console.ResetColor();
+            return number >= 0;
         }
 
-        static void Swap<T>(ref T a, ref T b)
+        static bool IsNegative(int number)
         {
-            T temp = a;
-            a = b;
-            b = temp;
+            return number < 0;
         }
 
-        #endregion
+        static bool Ildiz(int number)
+        {
+            double a = Math.Sqrt(number);
+            double b = Math.Pow(a, 2);
+
+            return (number == b);
+        }
+
+        public static decimal USD_UZS(decimal decimals)
+        {
+            decimal HozirgiKursUSD = 12374;//somda  1usd 
+
+            return HozirgiKursUSD * decimals;
+        }
+
+        public static decimal UZS_USD(decimal decimals)
+        {
+            decimal HozirgiKursUZS = (decimal)0.081; 
+
+            return HozirgiKursUZS * decimals;
+        }
+        public static void SOM(string som)
+        {
+            Console.WriteLine(" som");
+        } 
+        public static void Dollar(string dollar)
+        {
+            Console.WriteLine(" $");
+        }
     }
 }
