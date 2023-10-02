@@ -238,7 +238,7 @@ namespace Lesson07
                 Console.ResetColor();
                 Console.WriteLine();
             }
-        }
+        } 
         static void FileWrite()
         {
             Console.WriteLine("Enter file name or path");
