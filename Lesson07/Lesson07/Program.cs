@@ -2,6 +2,7 @@
 {
     internal class Program
     {
+        static string currentDirectory = @"C:\files";
         static void Main(string[] args)
         {
             #region DriveInfo
@@ -253,11 +254,11 @@
 
             #region Homework
 
-            string path = "C:\\Files";
+            //string path = "C:\\Files";
 
-            Console.WriteLine("1. Create Directory    2. Delete Directory    3. Show All Folders    4. Show All Folders with children");
-            Console.WriteLine("5. Create File         6. Delete File         7. Show All Files      8. Show All Files in Directory with children");
-            Console.WriteLine("9. Change current directory    10. Return to parent directory");
+            //Console.WriteLine("1. Create Directory    2. Delete Directory    3. Show All Folders    4. Show All Folders with children");
+            //Console.WriteLine("5. Create File         6. Delete File         7. Show All Files      8. Show All Files in Directory with children");
+            //Console.WriteLine("9. Change current directory    10. Return to parent directory");
 
             // 1. Yangi papka yaratish
             // 2. Papkani o'chirish
@@ -282,9 +283,218 @@
             // Demak, "New Folder" papkasiga ko'chgandan keying, foydalanuvchi 5chi operatsiyani tanlab,
             // "test" kirg'azsa, C:\\Files\\Notes\\New Folder ichida "test.txt" degan fayl yaratilishi kerak.
 
-            Main(args);
+            //Main(args);
 
             #endregion
+
+            while (true)
+            {
+
+                Console.WriteLine("Выберите операцию:");
+                Console.WriteLine("1. Создать папку");
+                Console.WriteLine("2. Удалить папку");
+                Console.WriteLine("3. Показать все папки");
+                Console.WriteLine("4. Показать все папки с подпапками");
+                Console.WriteLine("5. Создать файл");
+                Console.WriteLine("6. Удалить файл");
+                Console.WriteLine("7. Показать все файлы");
+                Console.WriteLine("8. Показать все файлы в текущей папке и подпапках");
+                Console.WriteLine("9. Изменить текущую папку");
+                Console.WriteLine("0. Выход");
+
+                int choice;
+                if (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Некорректный выбор. Попробуйте еще раз.");
+                    continue;
+                }
+
+                switch (choice)
+                {
+                    case 0:
+                        Environment.Exit(0);
+                        break;
+                    case 1:
+                        CreateDirectory();
+                        break;
+                    case 2:
+                        DeleteDirectory();
+                        break;
+                    case 3:
+                        ShowAllFolders();
+                        break;
+                    case 4:
+                        ShowAllFoldersWithChildren(currentDirectory);
+                        break;
+                    case 5:
+                        CreateFile();
+                        break;
+                    case 6:
+                        DeleteFile();
+                        break;
+                    case 7:
+                        ShowAllFiles();
+                        break;
+                    case 8:
+                        ShowAllFilesWithChildren(currentDirectory);
+                        break;
+                    case 9:
+                        ChangeCurrentDirectory();
+                        break;
+                    default:
+                        Console.WriteLine("Некорректный выбор. Попробуйте еще раз.");
+                        break;
+                }
+            }
+
+        }
+        static void CreateDirectory()
+        {
+            Console.WriteLine("Введите имя папки:");
+            string folderName = Console.ReadLine();
+            string path = Path.Combine(currentDirectory, folderName);
+
+            if (!Directory.Exists(path))
+            {
+                Console.Clear();
+                try
+                {
+                    Directory.CreateDirectory(path);
+                    Console.WriteLine($"Создано папка по имени {folderName}:");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при создание папки {ex.Message}");
+                }
+            }
+            Console.WriteLine("Для продолжение нажмите любую клавишу:");
+            Console.ReadKey();
+        }
+        static void DeleteDirectory()
+        {
+            Console.Clear();
+            Console.WriteLine($"Введите имя папки для удаление:");
+            string folderName = Console.ReadLine();
+            string path = Path.Combine(currentDirectory, folderName);
+
+            if (Directory.Exists(path))
+            {
+                try
+                {
+                    Directory.Delete(path);
+                    Console.WriteLine($"Папка {folderName} удалена: ");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при удаление папкиЖ{ex.Message}");
+                }
+            }
+            Console.WriteLine("Для продолжение нажмите любую клавишу:");
+            Console.ReadKey();
+        }
+        static void ShowAllFolders()
+        {
+            Console.Clear();
+            if (Directory.Exists(currentDirectory))
+            {
+                string[] folders = Directory.GetDirectories(currentDirectory);
+                Console.WriteLine("Список папки:");
+                foreach (string folder in folders)
+                {
+                    Console.WriteLine(folder);
+                }
+            }
+            Console.WriteLine("Для продолжение нажмите любую клавишу:");
+            Console.ReadKey();
+        }
+        static void ShowAllFoldersWithChildren(string directory)
+        {
+            Console.Clear();
+            Console.WriteLine("Список папки с подпакамиЖ");
+            string[] folders = Directory.GetDirectories(directory, "*", SearchOption.AllDirectories);
+            foreach (string folder in folders)
+            {
+                Console.WriteLine(folder);
+            }
+            Console.WriteLine("Для продолжение нажмите любую клавишу:");
+            Console.ReadKey();
+        }
+
+        static void CreateFile()
+        {
+            Console.Clear();
+            Console.WriteLine("Ввидите имя файла:");
+            string fileName = Console.ReadLine();
+            string path = Path.Combine(currentDirectory);
+            if (!File.Exists($"{path}\\{fileName}"))
+            {
+                try
+                {
+                    FileStream stream = File.Create($"{path}\\{fileName}");
+                    stream.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            Console.WriteLine("Для продолжение нажмите любую клавишу:");
+            Console.ReadKey();
+        }
+        static void DeleteFile()
+        {
+            Console.Clear();
+            Console.WriteLine("Введите имя файла для удаления:");
+            string fileName = Console.ReadLine();
+            string path = Path.Combine(currentDirectory, fileName);
+
+            try
+            {
+                File.Delete(path);
+                Console.WriteLine($"Файл '{fileName}' удален.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при удалении файла: {ex.Message}");
+            }
+            Console.WriteLine("Для продолжение нажмите любую клавишу:");
+            Console.ReadKey();
+        }
+
+        static void ShowAllFiles()
+        {
+            Console.Clear();
+            string[] files = Directory.GetFiles(currentDirectory);
+            Console.WriteLine("Список файлов:");
+            foreach (string file in files)
+            {
+                Console.WriteLine(file);
+            }
+            Console.WriteLine("Для продолжение нажмите любую клавишу:");
+            Console.ReadKey();
+        }
+        static void ShowAllFilesWithChildren(string directory)
+        {
+            Console.WriteLine("Список файлов в текущей папке и подпапках:");
+            string[] files = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
+            foreach (string file in files)
+            {
+                Console.WriteLine(file);
+            }
+        }
+        static void ChangeCurrentDirectory()
+        {
+            Console.WriteLine("Введите путь к новой текущей папке:");
+            string newDirectory = Console.ReadLine();
+            if (Directory.Exists(newDirectory))
+            {
+                currentDirectory = newDirectory;
+                Console.WriteLine($"Текущая папка изменена на '{currentDirectory}'.");
+            }
+            else
+            {
+                Console.WriteLine("Указанной папки не существует.");
+            }
         }
     }
 }
