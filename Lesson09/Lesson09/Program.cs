@@ -267,6 +267,11 @@ namespace Lesson09
 
         public override long Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public CustomMemoryStream(byte[] array)
+        {
+
+        }
+
         public override void Flush()
         {
             throw new NotImplementedException();
@@ -294,4 +299,5 @@ namespace Lesson09
 
 
     }
+
 }
