@@ -8,5 +8,6 @@ namespace Lesson05
 {
     internal class CannotEnterTenException : Exception
     {
+
     }
 }
