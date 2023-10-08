@@ -10,13 +10,11 @@ namespace Lesson10.Exceptions
     {
         public CartItemCannotBeNullException()
         {
-
         }
 
         public CartItemCannotBeNullException(string message)
             : base(message)
         {
-
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Lesson10
         public static string Read()
         {
             // Implement logic
+            return "";
         }
     }
 }

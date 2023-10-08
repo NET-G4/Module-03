@@ -16,16 +16,13 @@ namespace Lesson10.Models
 
         public void AddItem(Product product, int quantity)
         {
-            if (product == null)
-            {
-                throw new CartItemCannotBeNullException();
-            }
+            ArgumentNullException.ThrowIfNull(product);
 
             foreach(var item in items)
             {
                 if (item.Product.Id == product.Id)
                 {
-                    item.Quantity = item.Quantity + quantity;
+                    item.Quantity += quantity;
                     return;
                 }
             }

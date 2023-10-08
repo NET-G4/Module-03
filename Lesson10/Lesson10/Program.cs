@@ -7,19 +7,24 @@ namespace Lesson10
     internal class Program
     {
         private static ProductsService productsService;
-        private static Cart cart;
+        private static Cart cart = new Cart();
         static void Main(string[] args)
         {
+            CartItem item = new CartItem();
+            item.Quantity = 5;
             productsService = new ProductsService();
+            LoadData();
 
-            ShowMenu();
-
-            Main(args);
+            while (true)
+            {
+                ShowMenu();
+            }
         }
 
         static void LoadData()
         {
             // Load cart from previous session
+            // update cart
         }
 
         static void ShowMenu()
@@ -106,6 +111,8 @@ namespace Lesson10
 
         static void CloseApplication()
         {
+            // Save cart
+
             Environment.Exit(500);
         }
     }

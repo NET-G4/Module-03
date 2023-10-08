@@ -18,8 +18,12 @@ namespace Lesson10.Models
                 if (_quantity != value)
                 {
                     _quantity = value;
-                    TotalPrice = Product.Price * value;
-                    TotalPriceDiscount = Product.PriceDiscount * value;
+
+                    if (Product != null)
+                    {
+                        TotalPrice = Product.Price * value;
+                        TotalPriceDiscount = Product.PriceDiscount * value;
+                    }
                 }
             }
         } // 5
