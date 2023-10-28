@@ -101,7 +101,8 @@ namespace Lesson10
 
         static void MakeOrder()
         {
-
+            string result = JsonSerializer.Serialize(cart);
+            cart = JsonSerializer.Deserialize<Cart>(result);
         }
 
         static void CheckoutCart()
@@ -112,6 +113,18 @@ namespace Lesson10
         static void CloseApplication()
         {
             // Save cart
+            var options = new JsonSerializerOptions { WriteIndented = true };
+
+            Cart cart1 = new Cart();
+            cart1.AddItem(new Product()
+            {
+                Id = 5,
+                Price = 50,
+                Discount = 20,
+            }, 4);
+            string json = JsonSerializer.Serialize(cart1, options);
+
+            
 
             Environment.Exit(500);
         }

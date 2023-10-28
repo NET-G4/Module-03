@@ -1,4 +1,6 @@
 ﻿using Lesson10.Exceptions;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Lesson10.Models
 {
@@ -7,7 +9,8 @@ namespace Lesson10.Models
         public decimal TotalPrice { get; set; }
         public decimal TotalPriceDiscount { get; set; }
 
-        private readonly List<CartItem> items;
+        [JsonInclude]
+        public readonly List<CartItem> items;
 
         public Cart() 
         {
